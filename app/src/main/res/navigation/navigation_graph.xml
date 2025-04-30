@@ -3,11 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/addAppointmentFragment">
+    app:startDestination="@id/editAppointmentFragment">
 
     <fragment
         android:id="@+id/addAppointmentFragment"
         android:name="com.example.miniproyecto_i.view.fragment.AddAppointmentFragment"
         android:label="AddAppointmentFragment"
         tools:layout="@layout/fragment_add_appointment"/>
+
+    <fragment
+        android:id="@+id/editAppointmentFragment"
+        android:name="com.example.miniproyecto_i.view.fragment.EditAppointmentFragment"
+        android:label="EditAppointmentFragment"
+        tools:layout="@layout/fragment_edit_appointment"/>
 </navigation>
