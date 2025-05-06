@@ -18,6 +18,7 @@ class AddAppointmentFragment : Fragment() {
         binding = FragmentAddAppointmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
         setupToolBar()
+        setupButton()
         return binding.root
     }
 
@@ -25,5 +26,11 @@ class AddAppointmentFragment : Fragment() {
         val toolBar = binding.contentToolbar.toolbar
         val toolBarTitle = binding.contentToolbar.toolbarTitle
         toolBarTitle.text = "Nueva Cita"
+    }
+
+    private fun setupButton() {
+        val addButton = binding.addButton.baseButton
+        addButton.text = "Guardar Cita"
+        addButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0,0,0)
     }
 }
