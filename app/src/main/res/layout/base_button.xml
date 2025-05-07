@@ -16,7 +16,6 @@
             android:paddingVertical="15dp"
             android:paddingHorizontal="30dp"
             android:gravity="center_vertical|start"
-            android:enabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
