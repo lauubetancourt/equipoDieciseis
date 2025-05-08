@@ -7,11 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import com.example.miniproyecto_i.R
 import com.example.miniproyecto_i.databinding.FragmentEditAppointmentBinding
+import com.example.miniproyecto_i.model.BreedsModelResponse
+import com.example.miniproyecto_i.viewmodel.AppointmentViewModel
 
 class EditAppointmentFragment : Fragment() {
     private lateinit var binding: FragmentEditAppointmentBinding
+    private val appointmentViewModel: AppointmentViewModel by viewModels()
+    private var breedsList: List<String> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,25 +34,28 @@ class EditAppointmentFragment : Fragment() {
     private fun controllers() {
         validateData()
         binding.editButton.baseButton.setOnClickListener {
-            // Función editar datos
+            // Edit data in DB function
         }
     }
 
     private fun setupToolBar() {
-        val toolBar = binding.contentToolbar.toolbar
-        val toolBarTitle = binding.contentToolbar.toolbarTitle
+        val toolBar = binding.contentToolbar
+        val toolBarTitle = toolBar.toolbarTitle
         toolBarTitle.text = "Editar Cita"
     }
 
     private fun setupAutocompleteTextBreeds() {
-        val breedsList: List<String> = listOf("Pug", "Pastor", "Puddle")
-        val adapter: ArrayAdapter<String> = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_dropdown_item_1line,
-            breedsList
-        )
+        appointmentViewModel.getListBreeds()
+        appointmentViewModel.listBreeds.observe(viewLifecycleOwner) { response ->
+            breedsList = parseListBreeds(response)
 
-        binding.formulary.actvBreed.setAdapter(adapter)
+            val adapter: ArrayAdapter<String> = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                breedsList
+            )
+            binding.formulary.actvBreed.setAdapter(adapter)
+        }
     }
 
     private fun setupButton() {
@@ -74,8 +82,24 @@ class EditAppointmentFragment : Fragment() {
         }
     }
 
+    // since the breeds are in a JSON form and not List of strings, then parse it
+    private fun parseListBreeds(response: BreedsModelResponse): List<String> {
+        val breedsList = mutableListOf<String>()
+
+        response.breeds.forEach { (breed, subBreeds) ->
+            if (subBreeds.isEmpty()) {          // There are no subbreeds, just add the breed
+                breedsList.add(breed)
+        } else {                                // There are subbreeds, add as subbreed + breed
+                subBreeds.forEach { subBreed ->
+                    breedsList.add("$subBreed $breed")
+                }
+            }
+        }
+        return breedsList
+    }
+
+    // validate a given string is a breed from the breeds list
     private fun validateBreed(breed: String): Boolean {
-        val breedsList: List<String> = listOf("Pug", "Pastor", "Puddle")
         return breedsList.any { it.lowercase() == breed.lowercase() }
     }
 }
