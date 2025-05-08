@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.miniproyecto_i.model.Appointment
 import com.example.miniproyecto_i.utils.Constants.NAME_BD
 
-@Database(entities = [Appointment::class], version = 1)
+@Database(entities = [Appointment::class], version = 2)
 abstract class AppointmentDB : RoomDatabase() {
     abstract fun appointmentDao(): AppointmentDao
 
@@ -17,7 +17,8 @@ abstract class AppointmentDB : RoomDatabase() {
                 context.applicationContext,
                 AppointmentDB::class.java,
                 NAME_BD
-            ).build()
+            ).fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
