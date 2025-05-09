@@ -5,6 +5,7 @@ import com.example.miniproyecto_i.data.AppointmentDB
 import com.example.miniproyecto_i.data.AppointmentDao
 import com.example.miniproyecto_i.model.Appointment
 import com.example.miniproyecto_i.model.BreedsModelResponse
+import com.example.miniproyecto_i.model.BreedsPhotoModelResponse
 import com.example.miniproyecto_i.webservice.ApiService
 import com.example.miniproyecto_i.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +47,17 @@ class AppointmentRepository(val context: Context) {
             } catch (e: Exception) {
                 e.printStackTrace()
                 BreedsModelResponse(breeds = emptyMap())
+            }
+        }
+    }
+
+    suspend fun getPhotoByBreed(breed: String): BreedsPhotoModelResponse {
+        return withContext(Dispatchers.IO) {
+            val parts = breed.lowercase().split(" ")
+            if (parts.size == 2) {
+                apiService.getSubBreedPhoto(parts[1], parts[0])
+            } else {
+                apiService.getBreedPhoto(parts[0])
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.miniproyecto_i.model.Appointment
 import com.example.miniproyecto_i.model.BreedsModelResponse
+import com.example.miniproyecto_i.model.BreedsPhotoModelResponse
 import com.example.miniproyecto_i.repository.AppointmentRepository
 import kotlinx.coroutines.launch
 
@@ -19,6 +20,10 @@ class AppointmentViewModel(application: Application): AndroidViewModel(applicati
 
     private val _listBreeds = MutableLiveData<BreedsModelResponse>()
     val listBreeds: LiveData<BreedsModelResponse> = _listBreeds
+
+    private val _breedPhoto = MutableLiveData<BreedsPhotoModelResponse>()
+    val breedPhoto: LiveData<BreedsPhotoModelResponse> get() = _breedPhoto
+
 
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
@@ -83,4 +88,15 @@ class AppointmentViewModel(application: Application): AndroidViewModel(applicati
         }
     }
 
+    fun getBreedPhotoByName(breed: String) {
+        viewModelScope.launch {
+            _progresState.value = true
+            try {
+                val response = appointmentRepository.getPhotoByBreed(breed)
+                _breedPhoto.value = response
+            } catch (e: Exception) {
+                _progresState.value = false
+            }
+        }
+    }
 }

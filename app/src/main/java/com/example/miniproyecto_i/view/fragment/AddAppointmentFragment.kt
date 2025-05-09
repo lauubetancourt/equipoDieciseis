@@ -12,14 +12,19 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.miniproyecto_i.R
 import com.example.miniproyecto_i.databinding.FragmentAddAppointmentBinding
 import com.example.miniproyecto_i.model.Appointment
+import com.example.miniproyecto_i.model.BreedsModelResponse
 import com.example.miniproyecto_i.viewmodel.AppointmentViewModel
+import kotlinx.coroutines.launch
 
 class AddAppointmentFragment : Fragment() {
     private lateinit var binding: FragmentAddAppointmentBinding
     private val appointmentViewModel: AppointmentViewModel by viewModels()
+    private var breedsList: List<String> = emptyList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +34,7 @@ class AddAppointmentFragment : Fragment() {
         binding.lifecycleOwner = this
 
         setupToolBar()
+        setupAutocompleteTextBreeds()
         setupButton()
         setupSpinner()
         controladores()
@@ -41,6 +47,35 @@ class AddAppointmentFragment : Fragment() {
         toolBarTitle.text = "Nueva Cita"
     }
 
+    private fun setupAutocompleteTextBreeds() {
+        appointmentViewModel.getListBreeds()
+        appointmentViewModel.listBreeds.observe(viewLifecycleOwner) { response ->
+            breedsList = parseListBreeds(response)
+
+            val adapter: ArrayAdapter<String> = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                breedsList
+            )
+            binding.formulary.actvBreed.setAdapter(adapter)
+        }
+    }
+
+    // since the breeds are in a JSON form and not List of strings, then parse it
+    private fun parseListBreeds(response: BreedsModelResponse): List<String> {
+        val breedsList = mutableListOf<String>()
+
+        response.breeds.forEach { (breed, subBreeds) ->
+            if (subBreeds.isEmpty()) {          // There are no subbreeds, just add the breed
+                breedsList.add(breed)
+            } else {                                // There are subbreeds, add as subbreed + breed
+                subBreeds.forEach { subBreed ->
+                    breedsList.add("$subBreed $breed")
+                }
+            }
+        }
+        return breedsList
+    }
 
     private fun setupButton() {
         val addButton = binding.btnSave.baseButton
@@ -93,18 +128,25 @@ class AddAppointmentFragment : Fragment() {
         val ownerPhone = binding.formulary.etOwnerPhone.text.toString()
         val symptoms = binding.formulary.spinnerSymptoms.selectedItem.toString()
 
-        val appointment = Appointment(
-            petName = petName,
-            breed = petBreed,
-            ownerName = ownerName,
-            ownerPhone = ownerPhone,
-            symptoms = symptoms,
-            photo = "https:\\/\\/images.dog.ceo\\/breeds\\/poodle-standard\\/n02113799_3356.jpg\""
-        )
+        appointmentViewModel.getBreedPhotoByName(petBreed)
 
-        appointmentViewModel.saveAppointment(appointment)
-        Toast.makeText(context, "Cita guardada", Toast.LENGTH_SHORT).show()
+        appointmentViewModel.breedPhoto.observe(viewLifecycleOwner) { response ->
+            val photoUrl = response.photo
+
+            val appointment = Appointment(
+                petName = petName,
+                breed = petBreed,
+                ownerName = ownerName,
+                ownerPhone = ownerPhone,
+                symptoms = symptoms,
+                photo = photoUrl
+            )
+
+            appointmentViewModel.saveAppointment(appointment)
+            //TODO Navigation to homepage
+        }
     }
+
 
     private fun setupFormValidation() {
         val editTexts = listOf(
@@ -144,11 +186,20 @@ class AddAppointmentFragment : Fragment() {
         val ownerName = binding.formulary.etOwnerName.text.toString().trim()
         val ownerPhone = binding.formulary.etOwnerPhone.text.toString().trim()
 
+        val isBreedValid = validateBreed(petBreed)
+
         val allFieldsFilled = petName.isNotEmpty() &&
                 petBreed.isNotEmpty() &&
+                isBreedValid &&
                 ownerName.isNotEmpty() &&
                 ownerPhone.isNotEmpty()
 
        binding.btnSave.baseButton.isEnabled = allFieldsFilled
     }
+
+    // validate a given string is a breed from the breeds list
+    private fun validateBreed(breed: String): Boolean {
+        return breedsList.any { it.lowercase() == breed.lowercase() }
+    }
+
 }
