@@ -1,11 +1,16 @@
 package com.example.miniproyecto_i.model
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
 
+@Entity
 data class Appointment(
-    val id: String,
-    val name: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val petName: String,
     val breed: String,
-    val notes: String,
     val ownerName: String,
     val ownerPhone: String,
-    val imageUrl: String
-)
+    val symptoms: String,
+    val photo: String
+): Serializable
