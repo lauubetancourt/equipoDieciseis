@@ -1,5 +1,6 @@
 package com.example.miniproyecto_i.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,4 +22,9 @@ interface AppointmentDao {
 
     @Update
     suspend fun updateAppointment(appointment: Appointment)
+
+    @Query("SELECT * FROM Appointment WHERE id = :id LIMIT 1")
+    fun getAppointmentById(id: Int): LiveData<Appointment>
+
+
 }

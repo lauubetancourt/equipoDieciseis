@@ -1,6 +1,7 @@
 package com.example.miniproyecto_i.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.miniproyecto_i.data.AppointmentDB
 import com.example.miniproyecto_i.data.AppointmentDao
 import com.example.miniproyecto_i.model.Appointment
@@ -24,6 +25,9 @@ class AppointmentRepository(val context: Context) {
         return withContext(Dispatchers.IO) {
             appointmentDao.getListAppointment()
         }
+    }
+    fun getAppointmentById(id: Int): LiveData<Appointment> {
+        return appointmentDao.getAppointmentById(id)
     }
 
     suspend fun deleteAppointment(appointment: Appointment) {
