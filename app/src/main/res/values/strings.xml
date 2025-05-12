@@ -2,4 +2,19 @@
     <string name="app_name">MiniProyecto-I</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">DogApp</string>
+    <string name="app_name_styled">DogApp</string> <string name="login_background_image_desc">Background image for login screen</string>
+
+    <string name="biometric_auth_title">Autenticación con Biometría</string>
+    <string name="biometric_auth_subtitle">Ingresa su huella digital</string>
+    <string name="biometric_auth_negative_button">CANCELAR</string>
+    <string name="tap_fingerprint_to_login">Toca la huella para ingresar</string>
+
+    <string name="biometric_auth_error_hw_unavailable">Hardware biométrico no disponible.</string>
+    <string name="biometric_auth_error_none_enrolled">No hay huellas digitales registradas. Configúralas en los ajustes del sistema.</string>
+    <string name="biometric_auth_error_sdk_version">Versión de Android no soporta biometría.</string>
+    <string name="biometric_auth_error_unknown">Error biométrico desconocido.</string>
+    <string name="biometric_auth_failed">Autenticación fallida.</string>
+    <string name="biometric_auth_succeeded">Autenticación exitosa.</string>
+    <string name="go_to_settings">Ir a Ajustes</string>
 </resources>
