@@ -2,7 +2,6 @@
     <string name="app_name">MiniProyecto-I</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="app_name">DogApp</string>
     <string name="app_name_styled">DogApp</string> <string name="login_background_image_desc">Background image for login screen</string>
 
     <string name="biometric_auth_title">Autenticación con Biometría</string>
