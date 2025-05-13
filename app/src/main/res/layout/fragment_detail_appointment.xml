@@ -114,6 +114,42 @@
 
         </androidx.cardview.widget.CardView>
 
+        <!-- Delete Button (Red) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabDelete"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="20dp"
+            android:backgroundTint="#FF5252"
+            android:contentDescription="Delete"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:fabCustomSize="56dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:maxImageSize="24dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.SquareFab"
+            app:srcCompat="@drawable/ic_delete"
+            app:tint="@android:color/white" />
+
+        <!-- Edit Button (Dark) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabEdit"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="20dp"
+            android:backgroundTint="#1A2234"
+            android:contentDescription="Edit"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:fabCustomSize="56dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:maxImageSize="24dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.SquareFab"
+            app:srcCompat="@drawable/ic_pencil"
+            app:tint="@android:color/white" />
+
 
 
 

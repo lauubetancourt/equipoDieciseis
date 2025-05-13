@@ -22,10 +22,6 @@
         android:name="com.example.miniproyecto_i.view.fragment.DetailAppointmentFragment"
         android:label="detailAppointmentFragment"
         tools:layout="@layout/fragment_detail_appointment">
-        <argument
-            android:name="appointmentId"
-            app:argType="integer"
-            android:defaultValue="1" />
     </fragment>
 
 </navigation>
