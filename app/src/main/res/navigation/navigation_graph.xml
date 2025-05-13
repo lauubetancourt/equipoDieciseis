@@ -16,4 +16,9 @@
         android:name="com.example.miniproyecto_i.view.fragment.EditAppointmentFragment"
         android:label="EditAppointmentFragment"
         tools:layout="@layout/fragment_edit_appointment"/>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.miniproyecto_i.view.fragment.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>

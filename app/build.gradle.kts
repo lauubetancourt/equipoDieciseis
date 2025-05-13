@@ -52,6 +52,8 @@ dependencies {
     implementation ("com.google.android.material:material:1.11.0")
     implementation(libs.androidx.biometric.ktx)
     implementation(libs.lottie)
+    implementation(libs.androidx.core)
+    implementation(libs.google.material)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
