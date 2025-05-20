@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.miniproyecto_i.R
 import com.example.miniproyecto_i.databinding.FragmentEditAppointmentBinding
+import com.example.miniproyecto_i.model.Appointment
 import com.example.miniproyecto_i.model.BreedsModelResponse
 import com.example.miniproyecto_i.viewmodel.AppointmentViewModel
 
 class EditAppointmentFragment : Fragment() {
     private lateinit var binding: FragmentEditAppointmentBinding
     private val appointmentViewModel: AppointmentViewModel by viewModels()
+    private lateinit var receivedAppointment: Appointment
     private var breedsList: List<String> = emptyList()
 
     override fun onCreateView(
@@ -24,24 +27,49 @@ class EditAppointmentFragment : Fragment() {
     ): View? {
         binding = FragmentEditAppointmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        controllers()
+        //dataAppointment()         when detail view is ready, so pass the appointment through arguments
+
         setupToolBar()
         setupAutocompleteTextBreeds()
         setupButton()
-        controllers()
-        return binding.root
+        setupSymptomsSpinner()
     }
 
     private fun controllers() {
         validateData()
         binding.editButton.baseButton.setOnClickListener {
-            // Edit data in DB function
+            updateAppointment()
         }
+    }
+
+    private fun dataAppointment() {
+        val receivedBundle = arguments
+        receivedAppointment = receivedBundle?.getSerializable("dataAppointment") as Appointment
+        binding.formulary.etPetName.setText(receivedAppointment.petName)
+        binding.formulary.actvBreed.setText(receivedAppointment.breed)
+        binding.formulary.etOwnerName.setText(receivedAppointment.ownerName)
+        binding.formulary.etOwnerPhone.setText(receivedAppointment.ownerPhone)
+    }
+
+    private fun updateAppointment(){
+        val petName = binding.formulary.etPetName.text.toString()
+        val breed = binding.formulary.actvBreed.text.toString()
+        val ownerName = binding.formulary.etOwnerName.text.toString()
+        val ownerPhone = binding.formulary.etOwnerPhone.text.toString()
+        val appointment = Appointment(receivedAppointment.id, petName,breed,ownerName,ownerPhone,receivedAppointment.symptoms,receivedAppointment.photo)
+        appointmentViewModel.updateAppointment(appointment)
+        //findNavController().navigate(R.id.action_appointmentEditFragment_to_homeAppointmentFragment) navigation to detail view
     }
 
     private fun setupToolBar() {
         val toolBar = binding.contentToolbar
-        val toolBarTitle = toolBar.toolbarTitle
-        toolBarTitle.text = "Editar Cita"
+        toolBar.toolbarTitle.text = "Editar Cita"
     }
 
     private fun setupAutocompleteTextBreeds() {
@@ -61,6 +89,7 @@ class EditAppointmentFragment : Fragment() {
     private fun setupButton() {
         val editButton = binding.editButton.baseButton
         editButton.text = "Editar Cita"
+        editButton.isEnabled = false
         editButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pencil, 0,0,0)
     }
 
@@ -80,6 +109,10 @@ class EditAppointmentFragment : Fragment() {
                 binding.editButton.baseButton.isEnabled = isListFull && isBreedValid
             }
         }
+    }
+
+    private fun setupSymptomsSpinner() {
+        binding.formulary.spinnerSymptoms.isEnabled = false
     }
 
     // since the breeds are in a JSON form and not List of strings, then parse it
