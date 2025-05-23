@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class AppointmentViewModel(application: Application): AndroidViewModel(application) {
     val context = getApplication<Application>()
     private val appointmentRepository = AppointmentRepository(context)
-    private val appointmentId: Int = 1
+    private val appointmentId: Int = 2
     private val _listAppointment = MutableLiveData<MutableList<Appointment>>()
     val listAppointment: LiveData<MutableList<Appointment>> get() = _listAppointment
 
