@@ -33,8 +33,7 @@ class EditAppointmentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controllers()
-        //dataAppointment()         when detail view is ready, so pass the appointment through arguments
-
+        dataAppointment()
         setupToolBar()
         setupAutocompleteTextBreeds()
         setupButton()
@@ -45,6 +44,9 @@ class EditAppointmentFragment : Fragment() {
         validateData()
         binding.editButton.baseButton.setOnClickListener {
             updateAppointment()
+        }
+        binding.contentToolbar.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_appointmentEditFragment_to_appointmentDetailsFragment)
         }
     }
 
@@ -64,7 +66,7 @@ class EditAppointmentFragment : Fragment() {
         val ownerPhone = binding.formulary.etOwnerPhone.text.toString()
         val appointment = Appointment(receivedAppointment.id, petName,breed,ownerName,ownerPhone,receivedAppointment.symptoms,receivedAppointment.photo)
         appointmentViewModel.updateAppointment(appointment)
-        //findNavController().navigate(R.id.action_appointmentEditFragment_to_homeAppointmentFragment) navigation to detail view
+        findNavController().navigate(R.id.action_appointmentEditFragment_to_appointmentDetailsFragment)
     }
 
     private fun setupToolBar() {

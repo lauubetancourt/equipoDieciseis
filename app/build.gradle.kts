@@ -64,4 +64,7 @@ dependencies {
     implementation ("androidx.room:room-ktx:2.5.2")
     ksp("androidx.room:room-compiler:2.5.2")
     implementation ("com.getbase:floatingactionbutton:1.10.1")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
 }
