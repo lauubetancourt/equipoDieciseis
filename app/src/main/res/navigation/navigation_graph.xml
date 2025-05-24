@@ -16,6 +16,9 @@
         android:name="com.example.miniproyecto_i.view.fragment.EditAppointmentFragment"
         android:label="EditAppointmentFragment"
         tools:layout="@layout/fragment_edit_appointment"/>
+        <action
+            android:id="@+id/action_appointmentEditFragment_to_appointmentDetailsFragment"
+            app:destination="@id/detailAppointmentFragment" />
 
     <fragment
         android:id="@+id/detailAppointmentFragment"
