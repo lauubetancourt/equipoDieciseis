@@ -4,4 +4,6 @@
     <item android:color="@color/purple" android:state_focused="true" />
     <!-- Color por defecto -->
     <item android:color="@color/black" />
+
+
 </selector>
