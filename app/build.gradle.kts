@@ -50,6 +50,10 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation ("com.google.android.material:material:1.11.0")
+    implementation(libs.androidx.biometric.ktx)
+    implementation(libs.lottie)
+    implementation(libs.androidx.core)
+    implementation(libs.google.material)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
