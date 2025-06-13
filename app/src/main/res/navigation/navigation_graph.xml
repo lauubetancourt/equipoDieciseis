@@ -3,7 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/editAppointmentFragment">
+    app:startDestination="@id/homeAppointments">
+    <fragment
+        android:id="@+id/homeAppointments"
+        android:name="com.example.miniproyecto_i.view.fragment.HomeAppointments"
+        android:label="HomeAppointments"
+        tools:layout="@layout/fragment_home_appointments"/>
 
     <fragment
         android:id="@+id/addAppointmentFragment"
