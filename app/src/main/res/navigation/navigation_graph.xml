@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/detailAppointmentFragment">
+    app:startDestination="@id/homeAppointments">
 
-    <fragment
-        android:id="@+id/addAppointmentFragment"
-        android:name="com.example.miniproyecto_i.view.fragment.AddAppointmentFragment"
-        android:label="AddAppointmentFragment"
-        tools:layout="@layout/fragment_add_appointment"/>
+
 
     <fragment
         android:id="@+id/editAppointmentFragment"
@@ -34,14 +30,24 @@
             app:destination="@id/addAppointmentFragment" />
     </fragment>
 
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.example.miniproyecto_i.view.fragment.LoginActivity"
-        android:label="activity_login"
-        tools:layout="@layout/activity_login" />
     <fragment
         android:id="@+id/homeAppointments"
         android:name="com.example.miniproyecto_i.view.fragment.HomeAppointments"
-        android:label="HomeAppointments" />
+        android:label="HomeAppointments" >
+        <action
+            android:id="@+id/action_homeAppointments_to_detailAppointmentFragment"
+            app:destination="@id/detailAppointmentFragment" />
+        <action
+            android:id="@+id/action_homeAppointments_to_addAppointmentFragment"
+            app:destination="@id/addAppointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAppointmentFragment"
+        android:name="com.example.miniproyecto_i.view.fragment.AddAppointmentFragment"
+        android:label="AddAppointmentFragment" >
+        <action
+            android:id="@+id/action_addAppointmentFragment_to_homeAppointments"
+            app:destination="@id/homeAppointments" />
+    </fragment>
 
 </navigation>

@@ -194,7 +194,7 @@ class AddAppointmentFragment : Fragment() {
                 ownerName.isNotEmpty() &&
                 ownerPhone.isNotEmpty()
 
-       binding.btnSave.baseButton.isEnabled = allFieldsFilled
+        binding.btnSave.baseButton.isEnabled = allFieldsFilled
     }
 
     // validate a given string is a breed from the breeds list
