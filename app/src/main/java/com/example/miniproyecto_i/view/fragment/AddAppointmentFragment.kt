@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.miniproyecto_i.R
 import com.example.miniproyecto_i.databinding.FragmentAddAppointmentBinding
 import com.example.miniproyecto_i.model.Appointment
@@ -38,6 +39,7 @@ class AddAppointmentFragment : Fragment() {
         setupButton()
         setupSpinner()
         controladores()
+        goBack()
 
         return binding.root
     }
@@ -106,6 +108,13 @@ class AddAppointmentFragment : Fragment() {
         spinner.adapter = adapter
     }
 
+    private fun goBack() {
+        val backButton = binding.contentToolbar.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_addAppointmentFragment_to_homeAppointments)
+        }
+    }
+
 
     private fun controladores() {
         setupFormValidation()
@@ -143,7 +152,7 @@ class AddAppointmentFragment : Fragment() {
             )
 
             appointmentViewModel.saveAppointment(appointment)
-            //TODO Navigation to homepage
+            findNavController().navigate(R.id.action_addAppointmentFragment_to_homeAppointments)
         }
     }
 

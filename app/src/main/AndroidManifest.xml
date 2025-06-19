@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniProyectoI" tools:targetApi="31">
 
+
         <activity
             android:name=".view.MainActivity" android:exported="true"
             android:theme="@style/Theme.MiniProyectoI"> <intent-filter>

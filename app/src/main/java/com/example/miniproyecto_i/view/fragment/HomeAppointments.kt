@@ -36,8 +36,6 @@ class HomeAppointments : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("HomeAppointment", "Dentro")
-        print("Holaaaaaaaa")
         lifecycleScope.launch {
             val db = AppointmentDB.getDatabase(requireContext())
             val appointmentsFromDb = db.appointmentDao().getListAppointment()
