@@ -15,6 +15,7 @@ biometricKtx = "1.4.0-alpha02"
 lottie = "6.6.6"
 core = "1.16.0"
 materialVersion = "1.13.0-alpha13"
+deeplinkdispatch = "6.2.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +32,7 @@ androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx",
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
+deeplinkdispatch = { group = "com.airbnb", name = "deeplinkdispatch", version.ref = "deeplinkdispatch" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
