@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.androidx.core)
     implementation(libs.google.material)
+    implementation(libs.deeplinkdispatch)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
