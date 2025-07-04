@@ -21,6 +21,7 @@ class RecyclerViewHolder(binding: ItemAppointmentBinding): RecyclerView.ViewHold
                 .circleCrop()
                 .into(bindingItem.petImage)
 
+        bindingItem.appointmentId.text = "#${appointment.id}"
         bindingItem.petName.text = appointment.petName
         bindingItem.description.text = appointment.symptoms
 

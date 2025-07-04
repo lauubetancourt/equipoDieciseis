@@ -36,14 +36,20 @@ class HomeAppointments : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         lifecycleScope.launch {
             val db = AppointmentDB.getDatabase(requireContext())
             val appointmentsFromDb = db.appointmentDao().getListAppointment()
 
-            // Configurar adaptador
-            recyclerView.adapter = AppointmentAdapter(appointmentsFromDb)
+            recyclerView.adapter = AppointmentAdapter(appointmentsFromDb) { appointment ->
+                val bundle = Bundle().apply {
+                    putSerializable("dataAppointment", appointment)
+                }
+                findNavController().navigate(R.id.action_homeAppointments_to_detailAppointmentFragment, bundle)
+            }
         }
     }
+
 
     private fun addAppointment() {
         val addButton = binding.BtnAdd

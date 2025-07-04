@@ -19,6 +19,7 @@ class DetailAppointmentFragment : Fragment(){
     private val appointmentViewModel: AppointmentViewModel by viewModels()
     private lateinit var receivedAppointment: Appointment
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,6 +27,8 @@ class DetailAppointmentFragment : Fragment(){
     ): View {
         binding = FragmentDetailAppointmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
+
+        receivedAppointment = arguments?.getSerializable("dataAppointment") as Appointment
         setupToolBar()
         observeAppointmentData()
         controladores()
