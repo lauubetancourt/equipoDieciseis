@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeAppointments">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_itemDetailsFragment_to_itemAddFragment"
             app:destination="@id/addAppointmentFragment" />
+        <action
+            android:id="@+id/action_detailAppointmentFragment_to_homeAppointments"
+            app:destination="@id/homeAppointments" />
     </fragment>
 
     <fragment
@@ -56,7 +59,10 @@
         android:label="EditAppointmentFragment"
         tools:layout="@layout/fragment_edit_appointment">
         <action
-            android:id="@+id/action_appointmentEditFragment_to_appointmentDetailsFragment"
+            android:id="@+id/action_editAppointmentFragment_to_homeAppointments"
+            app:destination="@id/homeAppointments" />
+        <action
+            android:id="@+id/action_editAppointmentFragment_to_detailAppointmentFragment"
             app:destination="@id/detailAppointmentFragment" />
     </fragment>
 

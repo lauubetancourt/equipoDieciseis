@@ -79,24 +79,25 @@
             app:layout_constraintTop_toBottomOf="@id/header"
             tools:listitem="@layout/item_appointment" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/BtnAdd"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/button_square"
             android:clickable="true"
             android:elevation="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/salmon"
-            android:gravity="center_vertical|start"
-            android:paddingHorizontal="30dp"
-            android:paddingVertical="15dp"
-            android:text="Agregar cita"
-            android:textSize="16sp"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="40sp"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.951"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.937" />
+            app:layout_constraintVertical_bias="0.947" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

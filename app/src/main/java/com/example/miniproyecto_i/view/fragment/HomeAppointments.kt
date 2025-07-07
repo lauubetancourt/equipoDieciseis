@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +16,14 @@ import com.example.miniproyecto_i.R
 import com.example.miniproyecto_i.data.AppointmentDB
 import com.example.miniproyecto_i.databinding.FragmentHomeAppointmentsBinding
 import com.example.miniproyecto_i.view.adapters.AppointmentAdapter
+import com.example.miniproyecto_i.viewmodel.AppointmentViewModel
 import kotlinx.coroutines.launch
 
 class HomeAppointments : Fragment() {
 
     private lateinit var binding: FragmentHomeAppointmentsBinding
     private lateinit var recyclerView: RecyclerView
+    private val appointmentViewModel: AppointmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +39,24 @@ class HomeAppointments : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            val db = AppointmentDB.getDatabase(requireContext())
-            val appointmentsFromDb = db.appointmentDao().getListAppointment()
 
-            // Configurar adaptador
-            recyclerView.adapter = AppointmentAdapter(appointmentsFromDb)
+        appointmentViewModel.getListAppointment()
+
+        appointmentViewModel.listAppointment.observe(viewLifecycleOwner) { appointments ->
+
+            recyclerView.adapter = AppointmentAdapter(appointments) { appointment ->
+                val bundle = Bundle().apply {
+                    putSerializable("dataAppointment", appointment)
+                }
+                findNavController().navigate(
+                    R.id.action_homeAppointments_to_detailAppointmentFragment,
+                    bundle
+                )
+            }
         }
+
     }
+
 
     private fun addAppointment() {
         val addButton = binding.BtnAdd

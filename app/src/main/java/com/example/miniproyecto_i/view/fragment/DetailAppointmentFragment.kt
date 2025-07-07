@@ -19,6 +19,7 @@ class DetailAppointmentFragment : Fragment(){
     private val appointmentViewModel: AppointmentViewModel by viewModels()
     private lateinit var receivedAppointment: Appointment
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,42 +27,30 @@ class DetailAppointmentFragment : Fragment(){
     ): View {
         binding = FragmentDetailAppointmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
+
+        receivedAppointment = arguments?.getSerializable("dataAppointment") as Appointment
         setupToolBar()
         observeAppointmentData()
         controladores()
+        goBack()
         return binding.root
     }
     private fun setupToolBar() {
         val toolBar = binding.contentToolbar
         val toolBarTitle = toolBar.toolbarTitle
-        appointmentViewModel.appointment.observe(viewLifecycleOwner) { appointment ->
-            if (appointment != null) {
-                toolBarTitle.text = appointment.petName
-            } else {
-                toolBarTitle.text = "Detalles de la Cita"
-            }
-        }
+        toolBarTitle.text = receivedAppointment.petName
     }
     private fun observeAppointmentData() {
-        appointmentViewModel.appointment.observe(viewLifecycleOwner) { appointment ->
-            if (appointment != null) {
-                receivedAppointment = appointment
-                binding.tvBreed.text = appointment.breed
-                binding.tvOwner.text = "Propietario: ${appointment.ownerName}"
-                binding.tvPhone.text = "Teléfono: ${appointment.ownerPhone}"
-                binding.tvNotes.text = "Sin notas"
-                if (appointment.photo != null) {
-                    Glide.with(this)
-                        .load(appointment.photo) // Add an error drawable
-                        .centerCrop()
-                        .into(binding.ivPetImage)
-                }
-            } else {
-                binding.tvBreed.text = "No disponible"
-                binding.tvOwner.text = "Propietario: No disponible"
-                binding.tvPhone.text = "Teléfono: No disponible"
-                binding.tvNotes.text = "No disponible"
-            }
+        binding.tvBreed.text = receivedAppointment.breed
+        binding.tvOwner.text = "Propietario: ${receivedAppointment.ownerName}"
+        binding.tvPhone.text = "Teléfono: ${receivedAppointment.ownerPhone}"
+        binding.tvNotes.text = receivedAppointment.symptoms
+
+        receivedAppointment.photo?.let { url ->
+            Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .into(binding.ivPetImage)
         }
     }
     private fun controladores() {
@@ -78,6 +67,14 @@ class DetailAppointmentFragment : Fragment(){
     private fun deleteInventory(){
         appointmentViewModel.deleteAppointment(receivedAppointment)
         appointmentViewModel.getListAppointment()
-//        findNavController().navigate
+        findNavController().navigate(R.id.action_detailAppointmentFragment_to_homeAppointments)
     }
+
+    private fun goBack() {
+        val backButton = binding.contentToolbar.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_detailAppointmentFragment_to_homeAppointments)
+        }
+    }
+
 }

@@ -46,7 +46,7 @@ class EditAppointmentFragment : Fragment() {
             updateAppointment()
         }
         binding.contentToolbar.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_appointmentEditFragment_to_appointmentDetailsFragment)
+            findNavController().navigate(R.id.action_editAppointmentFragment_to_detailAppointmentFragment)
         }
     }
 
@@ -66,7 +66,7 @@ class EditAppointmentFragment : Fragment() {
         val ownerPhone = binding.formulary.etOwnerPhone.text.toString()
         val appointment = Appointment(receivedAppointment.id, petName,breed,ownerName,ownerPhone,receivedAppointment.symptoms,receivedAppointment.photo)
         appointmentViewModel.updateAppointment(appointment)
-        findNavController().navigate(R.id.action_appointmentEditFragment_to_appointmentDetailsFragment)
+        findNavController().navigate(R.id.action_editAppointmentFragment_to_homeAppointments)
     }
 
     private fun setupToolBar() {
@@ -137,4 +137,5 @@ class EditAppointmentFragment : Fragment() {
     private fun validateBreed(breed: String): Boolean {
         return breedsList.any { it.lowercase() == breed.lowercase() }
     }
+
 }
