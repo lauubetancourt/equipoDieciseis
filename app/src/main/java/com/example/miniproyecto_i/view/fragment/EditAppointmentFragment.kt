@@ -46,7 +46,9 @@ class EditAppointmentFragment : Fragment() {
             updateAppointment()
         }
         binding.contentToolbar.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_editAppointmentFragment_to_detailAppointmentFragment)
+            val bundle = Bundle()
+            bundle.putSerializable("dataAppointment", receivedAppointment)
+            findNavController().navigate(R.id.action_editAppointmentFragment_to_detailAppointmentFragment, bundle)
         }
     }
 
