@@ -27,9 +27,6 @@ class AppointmentRepository(val context: Context) {
             appointmentDao.getListAppointment()
         }
     }
-    fun getAppointmentById(id: Int): LiveData<Appointment> {
-        return appointmentDao.getAppointmentById(id)
-    }
 
     suspend fun deleteAppointment(appointment: Appointment) {
         withContext(Dispatchers.IO) {

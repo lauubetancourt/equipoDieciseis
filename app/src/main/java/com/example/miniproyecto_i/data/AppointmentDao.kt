@@ -23,8 +23,4 @@ interface AppointmentDao {
     @Update
     suspend fun updateAppointment(appointment: Appointment)
 
-    @Query("SELECT * FROM Appointment WHERE id = :id LIMIT 1")
-    fun getAppointmentById(id: Int): LiveData<Appointment>
-
-
 }

@@ -14,17 +14,15 @@ import kotlinx.coroutines.launch
 class AppointmentViewModel(application: Application): AndroidViewModel(application) {
     val context = getApplication<Application>()
     private val appointmentRepository = AppointmentRepository(context)
-    private val appointmentId: Int = 2
+
     private val _listAppointment = MutableLiveData<MutableList<Appointment>>()
     val listAppointment: LiveData<MutableList<Appointment>> get() = _listAppointment
 
     private val _listBreeds = MutableLiveData<BreedsModelResponse>()
     val listBreeds: LiveData<BreedsModelResponse> = _listBreeds
-    val appointment: LiveData<Appointment> = appointmentRepository.getAppointmentById(appointmentId)
 
     private val _breedPhoto = MutableLiveData<BreedsPhotoModelResponse>()
     val breedPhoto: LiveData<BreedsPhotoModelResponse> get() = _breedPhoto
-
 
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
