@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -41,6 +43,7 @@ class DetailAppointmentFragment : Fragment(){
         toolBarTitle.text = receivedAppointment.petName
     }
     private fun observeAppointmentData() {
+        binding.tvPetId.text = "#${receivedAppointment.id}"
         binding.tvBreed.text = receivedAppointment.breed
         binding.tvOwner.text = "Propietario: ${receivedAppointment.ownerName}"
         binding.tvPhone.text = "Teléfono: ${receivedAppointment.ownerPhone}"
@@ -55,7 +58,7 @@ class DetailAppointmentFragment : Fragment(){
     }
     private fun controladores() {
         binding.btnDelete.setOnClickListener {
-            deleteInventory()
+            showDeleteConfirmationDialog()
         }
 
         binding.btnEdit.setOnClickListener {
@@ -64,10 +67,37 @@ class DetailAppointmentFragment : Fragment(){
             findNavController().navigate(R.id.action_itemDetailsFragment_to_itemEditFragment, bundle)
         }
     }
+
     private fun deleteInventory(){
         appointmentViewModel.deleteAppointment(receivedAppointment)
         appointmentViewModel.getListAppointment()
         findNavController().navigate(R.id.action_detailAppointmentFragment_to_homeAppointments)
+    }
+    private fun showDeleteConfirmationDialog() {
+        context?.let { ctx ->
+            AlertDialog.Builder(ctx)
+                .setTitle("⚠️ Confirmar eliminación")
+                .setMessage("¿Estás seguro de que deseas eliminar la cita de ${receivedAppointment.petName}?\n\nEsta acción no se puede deshacer.")
+                .setIcon(R.drawable.ic_delete)
+                .setPositiveButton("Eliminar") { dialog, _ ->
+                    deleteInventory()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setCancelable(false)
+                .create()
+                .apply {
+                    show()
+                    getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(
+                        ContextCompat.getColor(ctx, android.R.color.holo_red_dark)
+                    )
+                    getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(
+                        ContextCompat.getColor(ctx, android.R.color.darker_gray)
+                    )
+                }
+        }
     }
 
     private fun goBack() {
