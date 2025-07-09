@@ -34,6 +34,7 @@ class HomeAppointments : Fragment() {
         recyclerView = binding.recyclerViewAppointments
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         addAppointment()
+        observeStatus()
         return binding.root
     }
 
@@ -65,5 +66,11 @@ class HomeAppointments : Fragment() {
             findNavController().navigate(R.id.action_homeAppointments_to_addAppointmentFragment)
         }
 
+    }
+
+    private fun observeStatus() {
+        appointmentViewModel.progresState.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 }

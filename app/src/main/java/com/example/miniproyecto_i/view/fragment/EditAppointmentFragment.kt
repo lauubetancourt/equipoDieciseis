@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,7 @@ class EditAppointmentFragment : Fragment() {
     private val appointmentViewModel: AppointmentViewModel by viewModels()
     private lateinit var receivedAppointment: Appointment
     private var breedsList: List<String> = emptyList()
+    private var isSaving = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,9 +68,24 @@ class EditAppointmentFragment : Fragment() {
         val breed = binding.formulary.actvBreed.text.toString()
         val ownerName = binding.formulary.etOwnerName.text.toString()
         val ownerPhone = binding.formulary.etOwnerPhone.text.toString()
-        val appointment = Appointment(receivedAppointment.id, petName,breed,ownerName,ownerPhone,receivedAppointment.symptoms,receivedAppointment.photo)
-        appointmentViewModel.updateAppointment(appointment)
-        findNavController().navigate(R.id.action_editAppointmentFragment_to_homeAppointments)
+
+        appointmentViewModel.getBreedPhotoByName(breed)
+        appointmentViewModel.breedPhoto.observe(viewLifecycleOwner) { response ->
+            val photoUrl = response.photo
+            val appointment = Appointment(
+                receivedAppointment.id,
+                petName,
+                breed,
+                ownerName,
+                ownerPhone,
+                receivedAppointment.symptoms,
+                photoUrl
+            )
+
+            isSaving = true
+            appointmentViewModel.updateAppointment(appointment)
+            observeStatus()
+        }
     }
 
     private fun setupToolBar() {
@@ -138,6 +155,19 @@ class EditAppointmentFragment : Fragment() {
     // validate a given string is a breed from the breeds list
     private fun validateBreed(breed: String): Boolean {
         return breedsList.any { it.lowercase() == breed.lowercase() }
+    }
+
+    private fun observeStatus() {
+        appointmentViewModel.progresState.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.editButton.baseButton.isEnabled = !isLoading
+
+            if (!isLoading && isSaving) {
+                isSaving = false
+                Toast.makeText(requireContext(), "Cita editada exitosamente", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_editAppointmentFragment_to_homeAppointments)
+            }
+        }
     }
 
 }
