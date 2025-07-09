@@ -17,7 +17,6 @@ class RecyclerViewHolder(binding: ItemAppointmentBinding): RecyclerView.ViewHold
         Log.d("imageImg",appointment.photo)
             Glide.with(bindingItem.root.context)
                 .load(appointment.photo.replace("\\/", "/"))
-                .placeholder(R.drawable.dog_icon)
                 .circleCrop()
                 .into(bindingItem.petImage)
 

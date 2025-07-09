@@ -3,29 +3,26 @@ package com.example.miniproyecto_i.view.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.miniproyecto_i.R
 import com.example.miniproyecto_i.databinding.FragmentAddAppointmentBinding
 import com.example.miniproyecto_i.model.Appointment
 import com.example.miniproyecto_i.model.BreedsModelResponse
 import com.example.miniproyecto_i.viewmodel.AppointmentViewModel
-import kotlinx.coroutines.launch
 
 class AddAppointmentFragment : Fragment() {
     private lateinit var binding: FragmentAddAppointmentBinding
     private val appointmentViewModel: AppointmentViewModel by viewModels()
     private var breedsList: List<String> = emptyList()
-
+    private var isSaving = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +42,7 @@ class AddAppointmentFragment : Fragment() {
     }
 
     private fun setupToolBar() {
-        val toolBarTitle = binding.contentToolbar.toolbarTitle
-        toolBarTitle.text = "Nueva Cita"
+        binding.contentToolbar.toolbarTitle.text = "Nueva Cita"
     }
 
     private fun setupAutocompleteTextBreeds() {
@@ -54,7 +50,7 @@ class AddAppointmentFragment : Fragment() {
         appointmentViewModel.listBreeds.observe(viewLifecycleOwner) { response ->
             breedsList = parseListBreeds(response)
 
-            val adapter: ArrayAdapter<String> = ArrayAdapter(
+            val adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_dropdown_item_1line,
                 breedsList
@@ -63,14 +59,12 @@ class AddAppointmentFragment : Fragment() {
         }
     }
 
-    // since the breeds are in a JSON form and not List of strings, then parse it
     private fun parseListBreeds(response: BreedsModelResponse): List<String> {
         val breedsList = mutableListOf<String>()
-
         response.breeds.forEach { (breed, subBreeds) ->
-            if (subBreeds.isEmpty()) {          // There are no subbreeds, just add the breed
+            if (subBreeds.isEmpty()) {
                 breedsList.add(breed)
-            } else {                                // There are subbreeds, add as subbreed + breed
+            } else {
                 subBreeds.forEach { subBreed ->
                     breedsList.add("$subBreed $breed")
                 }
@@ -103,25 +97,20 @@ class AddAppointmentFragment : Fragment() {
             android.R.layout.simple_spinner_item,
             symptoms
         )
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
 
     private fun goBack() {
-        val backButton = binding.contentToolbar.backButton
-        backButton.setOnClickListener {
+        binding.contentToolbar.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_addAppointmentFragment_to_homeAppointments)
         }
     }
 
-
     private fun controladores() {
         setupFormValidation()
-        val addButton = binding.btnSave.baseButton
-        addButton.setOnClickListener {
+        binding.btnSave.baseButton.setOnClickListener {
             val selectedSymptom = binding.formulary.spinnerSymptoms.selectedItem.toString()
-
             if (selectedSymptom == "Síntomas") {
                 Toast.makeText(requireContext(), "Selecciona un síntoma", Toast.LENGTH_SHORT).show()
             } else {
@@ -138,10 +127,8 @@ class AddAppointmentFragment : Fragment() {
         val symptoms = binding.formulary.spinnerSymptoms.selectedItem.toString()
 
         appointmentViewModel.getBreedPhotoByName(petBreed)
-
         appointmentViewModel.breedPhoto.observe(viewLifecycleOwner) { response ->
             val photoUrl = response.photo
-
             val appointment = Appointment(
                 petName = petName,
                 breed = petBreed,
@@ -151,11 +138,11 @@ class AddAppointmentFragment : Fragment() {
                 photo = photoUrl
             )
 
+            isSaving = true
             appointmentViewModel.saveAppointment(appointment)
-            findNavController().navigate(R.id.action_addAppointmentFragment_to_homeAppointments)
+            observeStatus()
         }
     }
-
 
     private fun setupFormValidation() {
         val editTexts = listOf(
@@ -176,9 +163,7 @@ class AddAppointmentFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
 
-        for (et in editTexts) {
-            et.addTextChangedListener(watcher)
-        }
+        editTexts.forEach { it.addTextChangedListener(watcher) }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -206,9 +191,20 @@ class AddAppointmentFragment : Fragment() {
         binding.btnSave.baseButton.isEnabled = allFieldsFilled
     }
 
-    // validate a given string is a breed from the breeds list
     private fun validateBreed(breed: String): Boolean {
-        return breedsList.any { it.lowercase() == breed.lowercase() }
+        return breedsList.any { it.equals(breed, ignoreCase = true) }
     }
 
+    private fun observeStatus() {
+        appointmentViewModel.progresState.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnSave.baseButton.isEnabled = !isLoading
+
+            if (!isLoading && isSaving) {
+                isSaving = false
+                Toast.makeText(requireContext(), "Cita guardada exitosamente", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_addAppointmentFragment_to_homeAppointments)
+            }
+        }
+    }
 }
