@@ -11,6 +11,11 @@ activity = "1.10.1"
 constraintlayout = "2.2.1"
 navigationFragmentKtx = "2.8.9"
 navigationUiKtx = "2.8.9"
+biometricKtx = "1.4.0-alpha02"
+lottie = "6.6.6"
+core = "1.16.0"
+materialVersion = "1.13.0-alpha13"
+deeplinkdispatch = "6.2.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,6 +28,11 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
+deeplinkdispatch = { group = "com.airbnb", name = "deeplinkdispatch", version.ref = "deeplinkdispatch" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

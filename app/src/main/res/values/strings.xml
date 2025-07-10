@@ -1,5 +1,32 @@
 <resources>
-    <string name="app_name">MiniProyecto-I</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">DogApp</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name_styled">DogApp</string>
+    <string name="login_background_image_desc">Background image for login screen</string>
+
+    <string name="biometric_auth_title">Autenticación con Biometría</string>
+    <string name="biometric_auth_subtitle">Ingresa su huella digital</string>
+    <string name="biometric_auth_negative_button">CANCELAR</string>
+    <string name="tap_fingerprint_to_login">Toca la huella para ingresar</string>
+    <string name="biometric_auth_succeeded">Autenticación exitosa</string>
+    <string name="biometric_auth_failed">Autenticación fallida.</string>
+
+    <string name="biometric_auth_error_unknown">Error biométrico desconocido.</string>
+    <string name="biometric_auth_error_hw_unavailable">Hardware biométrico no disponible.</string>
+    <string name="biometric_auth_error_none_enrolled">No hay huellas digitales registradas. Configúralas en los ajustes del sistema.</string>
+    <string name="biometric_auth_error_sdk_version">Versión de Android no soporta biometría.</string>
+    <string name="biometric_auth_error_lockout">Demasiados intentos fallidos. La biometría ha sido bloqueada temporalmente.</string>
+    <string name="biometric_auth_error_lockout_permanent">La biometría ha sido bloqueada permanentemente. Usa el bloqueo de pantalla.</string>
+    <string name="biometric_auth_error_user_canceled">Autenticación cancelada por el usuario</string>
+    <string name="biometric_auth_error_hw_not_paused">Operación de hardware de biometría no pausada correctamente.</string>
+    <string name="biometric_auth_error_negative_button">Autenticación cancelada por el botón negativo.</string>
+    <string name="biometric_auth_error_timeout">Tiempo de espera de autenticación agotado.</string>
+    <string name="biometric_auth_error_generic">Error genérico de autenticación</string>
+    <string name="biometric_auth_error_security_update">Se requiere una actualización de seguridad para usar la biometría.</string>
+    <string name="biometric_auth_error_unsupported">La biometría no es soportada en este dispositivo.</string>
+    <string name="biometric_auth_error_vendor">Error específico del proveedor de biometría</string>
+    <string name="biometric_auth_error_cannot_enroll_directly">No se pudo abrir la pantalla de registro de biometría directamente. Por favor, ve a Ajustes > Seguridad > Huella digital (o similar).</string>
+
+    <string name="go_to_settings">Ir a Ajustes</string>
+
 </resources>
